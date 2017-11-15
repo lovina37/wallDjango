@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Conscious Youth login and registration</title>
+  </head>
+  <body>
+    <div> 
+        <h3> Conscious Youth Registeration</h3>
+
+        <form class="" action="/register" method="post">
+          
+          {% csrf_token %}
+          <input type="text" name="firstName" placeholder="First Name"><br>
+          <input type="text" name="lastName" placeholder="Last Name"><br>
+          <input type="text" name="email" placeholder="Email"><br>
+          <input type="password" name="password" placeholder="Password"><br>
+          <input type="password" name="confirm_pw" placeholder="Confirm Password"><br>
+          <input type="submit" value="Register"><br>
+        </form>
+    </div>
+
+        
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+       
+
+        <form class="" action="/login" method="post">
+          <h3>Already a member? Login below:</h3>
+          {% csrf_token %}
+          <input type="text" name="email" placeholder="Email"><br>
+          <input type="password" name="password" placeholder="Password"><br>
+          <input type="submit" value="Login"><br>
+        </form>
+
+    
+  </body>
+</html>

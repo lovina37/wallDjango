@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            .comment {
+                text-indent: 50px;
+            }
+        </style>
+        <title>Conscious Youth</title>
+        <p>Welcome, {{request.session.name}}!</p>
+        <a href="/logout">Logout</a>
+    </head>
+    <body>
+        <h1>Conscious Youth Messageboard</h1>
+        <p>Please share with the community any resources, links or events that related to education, recreational activities, research, or other growth opportunities for enriching the youth to live up to their highest potential! </p>
+       
+            <h2>Share something below!</h2>
+                <form class="" action="/createMessage" method="post">
+                    {%csrf_token%}
+                    <input type="text" name="message" placeholder="Message">
+                    <input type="submit" name="" value="Post message">
+                </form>
+        <br><br>
+        <div>
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+        <div>
+            <h3>All Messages</h3>
+
+            {% for post in posts %}
+            <h3>{{post.author.firstName}} created a post: </h3>
+            <p>{{post.message}} - <i>{{post.created_at}}</i></p>
+
+            {% if post.author.id == request.session.id %}
+            <a href="/deleteMessage/{{post.id}}">Delete</a>
+            {% endif %}
+            <div class = 'comment'>
+                <h4>Comments</h4>
+                {% for comment in comments %}
+                {% if comment.message.id == post.id %}
+                    <h4>Comment by {{comment.author.firstName}} </h4>
+                    <p>{{comment.comment}} - {{comment.author.firstName}} {{comment.author.lastName}} - <i>{{comment.created_at}}</i></p> 
+                    {% if comment.author.id == request.session.id %}
+                        <a href = "/deleteComment/{{comment.id}}">Delete</a>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+                <br>
+                <h4>Post a comment</h4>
+                
+                            <form class="" action="/createComment" method="post">
+                              {%csrf_token%}
+                              <input type="hidden" name="message_id" value="{{ post.id}} ">
+                              <input type="text" name="comment" placeholder="Comment">
+                              <input type="submit" value="Post comment" >
+                            </form>
+            </div>
+                
+
+            
+
+           
+
+
+            <br>
+            {% endfor %}
+
+
+
+    </body>
+</html>
